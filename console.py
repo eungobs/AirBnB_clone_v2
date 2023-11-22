@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """ Console Module """
+import re
 import cmd
 import sys
 from models.base_model import BaseModel
@@ -313,7 +314,26 @@ class HBNBCommand(cmd.Cmd):
                 # update dictionary with name, value pair
                 new_dict.__dict__.update({att_name: att_val})
 
+
         new_dict.save()  # save updates to file
+
+        try:
+            param_dict = {}
+            for param in re.findall(r'(\S+)=("[^"]*"|[^"\s]+)', params):
+                key, value = param[0], param[1].replace('_', ' ').replace('\\"', '"')
+                if value.startswith('"') and value.endswith('"'):
+                    value = value[1:-1].replace('\\"', '"')
+                if '.' in value:
+                    value = float(value)
+                elif value.isdigit():
+                    value = int(value)
+                param_dict[key] = value
+
+            new_instance = globals()[class_name](**param_dict)
+            new_instance.save()
+            print(new_instance.id)
+        except Exception as e:
+            print("** {}".format(e))
 
     def help_update(self):
         """ Help information for the update class """
