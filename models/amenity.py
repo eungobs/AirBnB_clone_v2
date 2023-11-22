@@ -1,19 +1,18 @@
 #!/usr/bin/python3
-""" State Module for HBNB project """
-from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, ForeignKey
-from sqlalchemy.orm import relationship
+""" """
+from tests.test_models.test_base_model import test_basemodel
+from models.amenity import Amenity
 
-class Review(BaseModel, Base):
-    """ Review class representing the reviews table """
+class test_Amenity(test_basemodel):
+    """ """
 
-    __tablename__ = 'reviews'
+    def __init__(self, *args, **kwargs):
+        """ """
+        super().__init__(*args, **kwargs)
+        self.name = "Amenity"
+        self.value = Amenity
 
-    id = Column(String(60), primary_key=True, nullable=False)
-    text = Column(String(1024), nullable=False)
-    place_id = Column(String(60), ForeignKey('places.id'), nullable=False)
-    user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
-
-    # Relationships
-    user = relationship('User', backref='reviews')
-    place = relationship('Place', backref='reviews')
+    def test_name2(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.name), str)
