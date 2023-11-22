@@ -35,6 +35,13 @@ class FileStorage:
         from models.amenity import Amenity
         from models.review import Review
 
+         def delete(self, obj=None):
+        """ Deletes obj from __objects if it exists """
+        if obj is not None:
+            key = "{}.{}".format(obj.__class__.__name__, obj.id)
+            if key in self.__objects:
+                del self.__objects[key]
+
         classes = {
                     'BaseModel': BaseModel, 'User': User, 'Place': Place,
                     'State': State, 'City': City, 'Amenity': Amenity,
